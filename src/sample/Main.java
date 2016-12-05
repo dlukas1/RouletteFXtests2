@@ -61,6 +61,8 @@ public class Main extends Application {
         ToggleGroup g2 = new ToggleGroup();
         ToggleButton btn1 = new ToggleButton("Red   ");
         ToggleButton btn2 = new ToggleButton("Black");
+        btn2.setStyle("-fx-font: 16 arial; -fx-base:#000000;");
+        btn1.setStyle("-fx-font: 16 arial; -fx-base: #ff0019;");
         btn1.setToggleGroup(g2);
         btn2.setToggleGroup(g2);
         btn2.setSelected(true);
@@ -68,9 +70,9 @@ public class Main extends Application {
                 ("Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
         stack.getChildren().addAll(btn1, btn2, cb3);
         btn1.setTranslateX(160);
-        btn1.setTranslateY(18);
+        btn1.setTranslateY(10);
         btn2.setTranslateX(160);
-        btn2.setTranslateY(-10);
+        btn2.setTranslateY(-30);
         cb3.setTranslateX(160);
         cb3.setTranslateY(50);
 
