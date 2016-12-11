@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -27,10 +28,12 @@ public class Main extends Application {
         Scene scene = new Scene(stack, 400, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Lucky Roulette");
+        primaryStage.show();
         // scene.getStylesheets().add((getClass().getResource("style.css")).toExternalForm());
         Button spin = new Button("SPIN!");
         stack.getChildren().add(spin);
         spin.setTranslateY(100);
+
         Circle circleR = new Circle(60);
         circleR.setFill(Color.RED);
         Circle circleG = new Circle(60);
@@ -42,12 +45,16 @@ public class Main extends Application {
         stack.getChildren().add(field);
         field.maxWidth(50);
         field.setTranslateY(-150);
+
+        Label YB = new Label("Your bet: ");
+
 //CB1 for betOnNumber
         ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList
-                ("" + "Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
+                ("Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
         stack.getChildren().add(cb1);
         cb1.setTranslateY(-120);
         cb1.setTooltip(new Tooltip("Choose your bet!"));
+
         //Radio1 for odd/even
         ToggleGroup g1 = new ToggleGroup();
         RadioButton r1 = new RadioButton("Odd ");
@@ -59,20 +66,23 @@ public class Main extends Application {
 
         //Toggle for color
         ToggleGroup g2 = new ToggleGroup();
-        ToggleButton btn1 = new ToggleButton("Red   ");
-        ToggleButton btn2 = new ToggleButton("Black");
-        btn2.setStyle("-fx-font: 16 arial; -fx-base:#000000;");
-        btn1.setStyle("-fx-font: 16 arial; -fx-base: #ff0019;");
-        btn1.setToggleGroup(g2);
-        btn2.setToggleGroup(g2);
-        btn2.setSelected(true);
+        ToggleButton btnRed = new ToggleButton("Red   ");
+        ToggleButton btnBlack = new ToggleButton("Black");
+        btnBlack.setStyle("-fx-font: 16 arial; -fx-base:#000000;");
+        btnRed.setStyle("-fx-font: 16 arial; -fx-base: #ff0019;");
+        btnRed.setToggleGroup(g2);
+        btnBlack.setToggleGroup(g2);
+        btnBlack.setSelected(true);
+
+
         ChoiceBox cb3 = new ChoiceBox(FXCollections.observableArrayList
                 ("Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
-        stack.getChildren().addAll(btn1, btn2, cb3);
-        btn1.setTranslateX(160);
-        btn1.setTranslateY(10);
-        btn2.setTranslateX(160);
-        btn2.setTranslateY(-30);
+
+        stack.getChildren().addAll(btnRed, btnBlack, cb3);
+        btnRed.setTranslateX(160);
+        btnRed.setTranslateY(10);
+        btnBlack.setTranslateX(160);
+        btnBlack.setTranslateY(-30);
         cb3.setTranslateX(160);
         cb3.setTranslateY(50);
 
@@ -112,27 +122,75 @@ public class Main extends Application {
             @Override
 
             public void handle(ActionEvent event) {
-              /* Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    public void run() {
-                        stack.getChildren().add(circleZ) ;}},500);
-                timer.schedule(new TimerTask() {
-                    public void run() {
-                        stack.getChildren().remove(circleR);
-                        stack.getChildren().add(circleB) ;}},500);
-                timer.schedule(new TimerTask() {
-                    public void run() {
-                        stack.getChildren().remove(circleB);
-                        stack.getChildren().add(circleR) ;}},500);
-                timer.schedule(new TimerTask() {
-                    public void run() {
-                        stack.getChildren().remove(circleR);
-                        stack.getChildren().add(circleB) ;}},500);*/
-                // stack.getChildren().remove(circleZ);
+
+
                 stack.getChildren().remove(circleB);
                 stack.getChildren().remove(circleG);
                 stack.getChildren().remove(circleR);
                 stack.getChildren().remove(actiontarget);
+
+
+                /*
+                Timer timer = new Timer();
+
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        stack.getChildren().add(circleB) ;}},500);
+
+              timer.schedule(new TimerTask() {
+                    public void run() {
+                        stack.getChildren().remove(circleB);
+                        stack.getChildren().add(circleR) ;}},1000);
+
+               timer.schedule(new TimerTask() {
+                    public void run() {
+                        stack.getChildren().remove(circleR);
+                        stack.getChildren().add(circleB) ;}},1500);
+                timer.schedule(new TimerTask() {
+            public void run() {
+                stack.getChildren().remove(circleB);
+                stack.getChildren().add(circleR) ; }},2000);*/
+                int userNumber = Integer.parseInt(field.getText());     //String to integer
+                Toggle userColor = g2.getSelectedToggle();
+                Toggle userOddEven = g1.getSelectedToggle();
+                System.out.println(userNumber);
+                System.out.println(userColor);
+
+                System.out.println(userOddEven);
+
+
+                System.out.println(cb1.getValue());
+                System.out.println(cb2.getValue());
+                System.out.println(cb3.getValue());
+
+
+                int luckyNumber = (int) (Math.random() * 36);
+                char[] mas = {'G', 'R', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'B', 'R',
+                        'B', 'R', 'B', 'R', 'B', 'R', 'R', 'B', 'R', 'B', 'R', 'B', 'R',
+                        'B', 'R', 'B', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'R'};
+                char luckyColor = mas[luckyNumber];
+
+                System.out.println("Number is " + luckyNumber);
+                System.out.println("Color is " + luckyColor);
+
+                stack.getChildren().remove(circleB);
+                stack.getChildren().remove(circleG);
+                stack.getChildren().remove(circleR);
+                stack.getChildren().remove(actiontarget);
+
+                if (luckyColor == 'R') {
+                    stack.getChildren().add(circleR);
+                } else if (luckyColor == 'G') {
+                    stack.getChildren().add(circleG);
+                } else {
+                    stack.getChildren().add(circleB);
+                }
+                stack.getChildren().add(actiontarget);
+                actiontarget.setText("" + luckyNumber);
+
+
+
+
                /* char userOE = 0;
                 if(userEven == true){
                     userOE = 'E';
@@ -145,41 +203,19 @@ public class Main extends Application {
                 String userBetCol = cb2.getValue().toString();
                 String userBetOE = cb3.getValue().toString();*/
 
-               /* Scanner sc1 = new Scanner(System.in);
-                int userNumber = sc1.nextInt();*/
-
-               /* boolean userOdd = r1.isSelected();
+              /* boolean userOdd = r1.isSelected();
                 boolean userEven = r2.isSelected();
-
-                boolean userColRed = btn1.isSelected();
-                boolean userColBlack = btn2.isSelected();
-                char userColor = 'z';
+                boolean userColRed = btnRed.isSelected();
+                boolean userColBlack = btnBlack.isSelected();
+                char userColor2 = 'z';
                 if (userColRed == true) {
-                    userColor = 'R';
+                    userColor2 = 'R';
                 } else if (userColBlack == true) {
-                    userColor = 'B';
+                    userColor2 = 'B';
                 }
-                System.out.println(userColor);*/
-
-                int luckyNumber = (int) (Math.random() * 36);
-                char[] mas = {'G', 'R', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'B', 'R',
-                        'B', 'R', 'B', 'R', 'B', 'R', 'R', 'B', 'R', 'B', 'R', 'B', 'R',
-                        'B', 'R', 'B', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'R'};
-                char luckyColor = mas[luckyNumber];
-
-                System.out.println("Number is " + luckyNumber);
-                System.out.println("Color is " + luckyColor);
-                if (luckyColor == 'R') {
-                    stack.getChildren().add(circleR);
-                } else if (luckyColor == 'G') {
-                    stack.getChildren().add(circleG);
-                } else {
-                    stack.getChildren().add(circleB);
-                }
-                stack.getChildren().add(actiontarget);
-                actiontarget.setText("" + luckyNumber);
+                System.out.println(userColor2);*/
             }
+
         });
-        primaryStage.show();
     }
 }
