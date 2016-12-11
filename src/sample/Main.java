@@ -2,6 +2,8 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -41,14 +43,16 @@ public class Main extends Application {
         Circle circleB = new Circle(60);
         circleB.setFill(Color.BLACK);
 //TextField for NUMBER
-        TextField field = new TextField("Vali number 0 - 36 :");
+        TextField field = new TextField();
         stack.getChildren().add(field);
         field.maxWidth(50);
         field.setTranslateY(-150);
 
         Label YB = new Label("Your bet: ");
-
-//CB1 for betOnNumber
+        Label lb = new Label("Number  0 - 36: ");
+        stack.getChildren().add(lb);
+        lb.setTranslateY(-170);
+        //CB1 for betOnNumber
         ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList
                 ("Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
         stack.getChildren().add(cb1);
@@ -59,6 +63,8 @@ public class Main extends Application {
         ToggleGroup g1 = new ToggleGroup();
         RadioButton r1 = new RadioButton("Odd ");
         RadioButton r2 = new RadioButton("Even");
+        r1.setUserData("O");
+        r2.setUserData("E");
         r1.setToggleGroup(g1);
         r2.setToggleGroup(g1);
         r2.setSelected(true);
@@ -70,6 +76,8 @@ public class Main extends Application {
         ToggleButton btnBlack = new ToggleButton("Black");
         btnBlack.setStyle("-fx-font: 16 arial; -fx-base:#000000;");
         btnRed.setStyle("-fx-font: 16 arial; -fx-base: #ff0019;");
+        btnBlack.setUserData('B');
+        btnRed.setUserData('R');
         btnRed.setToggleGroup(g2);
         btnBlack.setToggleGroup(g2);
         btnBlack.setSelected(true);
@@ -96,22 +104,6 @@ public class Main extends Application {
         cb2.setTranslateX(-160);
         cb2.setTranslateY(35);
 
-       /* GridPane grid = new GridPane();
-        ToggleGroup g2 = new ToggleGroup();
-        ToggleButton e1 = new ToggleButton("1-9");
-        ToggleButton e2 = new ToggleButton("10-18");
-        ToggleButton e3 = new ToggleButton("19-27");
-        ToggleButton e4 = new ToggleButton("28-36");
-        e1.setToggleGroup(g2);
-        e2.setToggleGroup(g2);
-        e3.setToggleGroup(g2);
-        e4.setToggleGroup(g2);
-        e4.setSelected(true);
-        grid.getChildren().add(e1);
-        stack.getChildren().add(grid);
-        */
-
-
         final Text actiontarget = new Text();
         actiontarget.setId("actiontarget");
         actiontarget.setFont(new Font("Arial", 50));
@@ -123,42 +115,38 @@ public class Main extends Application {
 
             public void handle(ActionEvent event) {
 
-
                 stack.getChildren().remove(circleB);
                 stack.getChildren().remove(circleG);
                 stack.getChildren().remove(circleR);
                 stack.getChildren().remove(actiontarget);
 
-
-                /*
-                Timer timer = new Timer();
-
-                timer.schedule(new TimerTask() {
-                    public void run() {
-                        stack.getChildren().add(circleB) ;}},500);
-
-              timer.schedule(new TimerTask() {
-                    public void run() {
-                        stack.getChildren().remove(circleB);
-                        stack.getChildren().add(circleR) ;}},1000);
-
-               timer.schedule(new TimerTask() {
-                    public void run() {
-                        stack.getChildren().remove(circleR);
-                        stack.getChildren().add(circleB) ;}},1500);
-                timer.schedule(new TimerTask() {
-            public void run() {
-                stack.getChildren().remove(circleB);
-                stack.getChildren().add(circleR) ; }},2000);*/
                 int userNumber = Integer.parseInt(field.getText());     //String to integer
-                Toggle userColor = g2.getSelectedToggle();
-                Toggle userOddEven = g1.getSelectedToggle();
-                System.out.println(userNumber);
-                System.out.println(userColor);
+                g2.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+                    public void changed(ObservableValue<? extends Toggle> ov,
+                                        Toggle old_toggle, Toggle new_toggle) {
+                        if (g2.getSelectedToggle() != null) {
+                            System.out.println(g2.getSelectedToggle().getUserData().toString());
+                        }
+                    }
+                });
+                g1.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+                    public void changed(ObservableValue<? extends Toggle> ov,
+                                        Toggle old_toggle, Toggle new_toggle) {
+                        if (g1.getSelectedToggle() != null) {
+                            System.out.println(g1.getSelectedToggle().getUserData().toString());
+                        }
+                    }
+                });
 
+
+                String userOddEven = g1.getSelectedToggle().getUserData().toString();
+                String userColor = g2.getSelectedToggle().getUserData().toString();
+
+
+                System.out.println(userColor);
                 System.out.println(userOddEven);
 
-
+                System.out.println(userNumber);
                 System.out.println(cb1.getValue());
                 System.out.println(cb2.getValue());
                 System.out.println(cb3.getValue());
