@@ -1,26 +1,18 @@
 package sample;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Main extends Application {
     @Override
@@ -42,7 +34,7 @@ public class Main extends Application {
         Circle circleB = new Circle(60);
         circleB.setFill(Color.BLACK);
 //TextField for NUMBER
-        TextField field = new TextField();
+        TextField field = new TextField("0");
         stack.getChildren().add(field);
         field.maxWidth(50);
         field.setTranslateY(-150);
@@ -53,7 +45,7 @@ public class Main extends Application {
         lb.setTranslateY(-170);
         //CB1 for betOnNumber
         ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList
-                ("Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
+                (1,2,5,10,20));
         stack.getChildren().add(cb1);
         cb1.setTranslateY(-120);
         cb1.setTooltip(new Tooltip("Choose your bet!"));
@@ -62,11 +54,10 @@ public class Main extends Application {
         ToggleGroup g1 = new ToggleGroup();
         RadioButton r1 = new RadioButton("Odd ");
         RadioButton r2 = new RadioButton("Even");
-        r1.setUserData("O");
-        r2.setUserData("E");
+        r1.setUserData('O');
+        r2.setUserData('E');
         r1.setToggleGroup(g1);
         r2.setToggleGroup(g1);
-        r2.setSelected(true);
 
 
         //Toggle for color
@@ -82,8 +73,9 @@ public class Main extends Application {
         btnBlack.setSelected(true);
 
 
+
         ChoiceBox cb3 = new ChoiceBox(FXCollections.observableArrayList
-                ("Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
+                (1,2,5,10,20));
 
         stack.getChildren().addAll(btnRed, btnBlack, cb3);
         btnRed.setTranslateX(160);
@@ -95,7 +87,7 @@ public class Main extends Application {
 
 
         ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList
-                ("Bet 1", "Bet 2", "Bet 5", "Bet 10", "Bet 20"));
+                (1,2,5,10,20));
         stack.getChildren().addAll(r1, r2, cb2);
         r1.setTranslateX(-160);
         r2.setTranslateX(-160);
@@ -108,6 +100,10 @@ public class Main extends Application {
         actiontarget.setFont(new Font("Arial", 50));
         actiontarget.setFill(Color.WHITE);
 
+        final Text myMoneyT = new Text();
+        stack.getChildren().add(myMoneyT);
+        stack.setAlignment(myMoneyT, Pos.TOP_RIGHT);
+
         //GAME STARTS HERE!
         spin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -118,9 +114,14 @@ public class Main extends Application {
                 stack.getChildren().remove(circleG);
                 stack.getChildren().remove(circleR);
                 stack.getChildren().remove(actiontarget);
+                User user = new User();
+                Teller teller = new Teller();
+                Roulette rulet = new Roulette();
+
+
 
                 int userNumber = Integer.parseInt(field.getText());     //String to integer
-                g2.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+              /*  g2.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
                     public void changed(ObservableValue<? extends Toggle> ov,
                                         Toggle old_toggle, Toggle new_toggle) {
                         if (g2.getSelectedToggle() != null) {
@@ -135,28 +136,29 @@ public class Main extends Application {
                             System.out.println(g1.getSelectedToggle().getUserData().toString());
                         }
                     }
-                });
+                });*/
 
-
-                String userOddEven = g1.getSelectedToggle().getUserData().toString();
-                String userColor = g2.getSelectedToggle().getUserData().toString();
-
-
-                System.out.println(userColor);
-                System.out.println(userOddEven);
-
-                System.out.println(userNumber);
-                System.out.println(cb1.getValue());
-                System.out.println(cb2.getValue());
-                System.out.println(cb3.getValue());
-
-                Roulette rulet = new Roulette();
+                //get values from toggle buttons
+               /* String userOddEven = g1.getSelectedToggle().getUserData().toString();
+                String userColor = g2.getSelectedToggle().getUserData().toString();*/
+                //convert strings to chars
+               /* char cuserOE = userOddEven.charAt(0);
+                char cuserColor = userColor.charAt(0);
+                //get values from choiceboxes
+               String userBetNum = cb1.getValue().toString();
+                String userBetOE = cb2.getValue().toString();
+                String userBetCol = cb3.getValue().toString();
+                //convert to integers
+                int ubn = Integer.parseInt(userBetNum);
+                int uboe = Integer.parseInt(userBetOE);
+                int ubc = Integer.parseInt(userBetCol);
+                int userBet = ubn+ubc+uboe;*/
                 int luckyNumber = rulet.fortuneNum();
-                char luckyColor = rulet.fortuneCol(luckyNumber);
+                char luckyColor = rulet.fortuneCol(luckyNumber);/*
+                int userWin = teller.checkForWin(userNumber, cuserColor,cuserOE,luckyNumber,luckyColor, ubn,  ubc, uboe);
 
-                System.out.println("Number is " + luckyNumber);
-                System.out.println("Color is " + luckyColor);
-
+                int userMoney = user.countMoney(userBet, userWin);
+                myMoneyT.setText("Your money: " + userMoney);*/
                 stack.getChildren().remove(circleB);
                 stack.getChildren().remove(circleG);
                 stack.getChildren().remove(circleR);
@@ -171,6 +173,8 @@ public class Main extends Application {
                 }
                 stack.getChildren().add(actiontarget);
                 actiontarget.setText("" + luckyNumber);
+
+
 
             }
 

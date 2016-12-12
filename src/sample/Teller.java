@@ -4,20 +4,30 @@ package sample;
  * Класс Теллер - принимает ставки (сколько и на что поставили), сравнивает ставку и результт рулетки и считает выигрыш
  */
 public class Teller {
-    public int userWin;
+    public int userWinN, userWinC, userWinOE;
 
-    public int checkForWin(int userNumber, char userColor, int luckyNumber, char luckyColor, int userBetNum, int userBetCol) {
+    boolean isEven(int userNumber) {
+        return ((userNumber % 2) == 0);
+    }
+
+    public int checkForWin(int userNumber, char userColor, char cuserOE, int luckyNumber, char luckyColor, int ubn, int ubc, int uboe) {
 
         if (userNumber == luckyNumber) {
-            userWin = userBetNum * 35;
-            System.out.println("You win is " + userWin);
-        } else if (userColor == luckyColor) {
-            userWin = userBetCol * 2;
-            System.out.println("Your win is " + userWin);
+            userWinN = ubn * 35;
 
+        } else if (userColor == luckyColor) {
+            userWinC = ubc * 2;
+
+        } else if (isEven(userNumber) == true || cuserOE == 'E') {
+            userWinOE = uboe * 2;
+        } else if (isEven(userNumber) == false || cuserOE == 'O') {
+            userWinOE = uboe * 2;
         } else {
             System.out.println("You lost!");
         }
+
+        int userWin = userWinN + userWinC + userWinOE;
+
         return userWin;
     }
 }
