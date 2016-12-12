@@ -1,5 +1,4 @@
 package sample;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -151,12 +150,9 @@ public class Main extends Application {
                 System.out.println(cb2.getValue());
                 System.out.println(cb3.getValue());
 
-
-                int luckyNumber = (int) (Math.random() * 36);
-                char[] mas = {'G', 'R', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'B', 'R',
-                        'B', 'R', 'B', 'R', 'B', 'R', 'R', 'B', 'R', 'B', 'R', 'B', 'R',
-                        'B', 'R', 'B', 'B', 'R', 'B', 'R', 'B', 'R', 'B', 'R'};
-                char luckyColor = mas[luckyNumber];
+                Roulette rulet = new Roulette();
+                int luckyNumber = rulet.fortuneNum();
+                char luckyColor = rulet.fortuneCol(luckyNumber);
 
                 System.out.println("Number is " + luckyNumber);
                 System.out.println("Color is " + luckyColor);
@@ -176,32 +172,6 @@ public class Main extends Application {
                 stack.getChildren().add(actiontarget);
                 actiontarget.setText("" + luckyNumber);
 
-
-
-
-               /* char userOE = 0;
-                if(userEven == true){
-                    userOE = 'E';
-                }
-                else if (userOdd == true) {
-                    userOE = 'O';
-                }
-                System.out.println(userOE);*/
-                /*String userBetNum = cb1.getValue().toString();
-                String userBetCol = cb2.getValue().toString();
-                String userBetOE = cb3.getValue().toString();*/
-
-              /* boolean userOdd = r1.isSelected();
-                boolean userEven = r2.isSelected();
-                boolean userColRed = btnRed.isSelected();
-                boolean userColBlack = btnBlack.isSelected();
-                char userColor2 = 'z';
-                if (userColRed == true) {
-                    userColor2 = 'R';
-                } else if (userColBlack == true) {
-                    userColor2 = 'B';
-                }
-                System.out.println(userColor2);*/
             }
 
         });
