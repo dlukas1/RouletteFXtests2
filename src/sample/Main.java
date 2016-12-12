@@ -33,7 +33,8 @@ public class Main extends Application {
         circleG.setFill(Color.GREEN);
         Circle circleB = new Circle(60);
         circleB.setFill(Color.BLACK);
-//TextField for NUMBER
+
+        //TextField for NUMBER
         TextField field = new TextField("0");
         stack.getChildren().add(field);
         field.maxWidth(50);
@@ -43,9 +44,18 @@ public class Main extends Application {
         Label lb = new Label("Number  0 - 36: ");
         stack.getChildren().add(lb);
         lb.setTranslateY(-170);
-        //CB1 for betOnNumber
+
         ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList
-                (1,2,5,10,20));
+                (0,1,2,5,10,20));
+        ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList
+                (0,1,2,5,10,20));
+
+        ChoiceBox cb3 = new ChoiceBox(FXCollections.observableArrayList
+                (0,1,2,5,10,20));
+        cb1.getSelectionModel().select(0);
+        cb2.getSelectionModel().select(0);
+        cb3.getSelectionModel().select(0);
+
         stack.getChildren().add(cb1);
         cb1.setTranslateY(-120);
         cb1.setTooltip(new Tooltip("Choose your bet!"));
@@ -74,8 +84,7 @@ public class Main extends Application {
 
 
 
-        ChoiceBox cb3 = new ChoiceBox(FXCollections.observableArrayList
-                (1,2,5,10,20));
+
 
         stack.getChildren().addAll(btnRed, btnBlack, cb3);
         btnRed.setTranslateX(160);
@@ -86,8 +95,6 @@ public class Main extends Application {
         cb3.setTranslateY(50);
 
 
-        ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList
-                (1,2,5,10,20));
         stack.getChildren().addAll(r1, r2, cb2);
         r1.setTranslateX(-160);
         r2.setTranslateX(-160);
@@ -119,8 +126,20 @@ public class Main extends Application {
                 Roulette rulet = new Roulette();
 
 
-
                 int userNumber = Integer.parseInt(field.getText());     //String to integer
+
+                //get values from choiceboxes
+                String userBetNum = cb1.getValue().toString();
+                String userBetOE = cb2.getValue().toString();
+                String userBetCol = cb3.getValue().toString();
+                //convert to integers
+                int ubn = Integer.parseInt(userBetNum);
+                int uboe = Integer.parseInt(userBetOE);
+                int ubc = Integer.parseInt(userBetCol);
+                int userBet = ubn+ubc+uboe;
+                System.out.println(userBet);
+
+
               /*  g2.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
                     public void changed(ObservableValue<? extends Toggle> ov,
                                         Toggle old_toggle, Toggle new_toggle) {
@@ -136,25 +155,24 @@ public class Main extends Application {
                             System.out.println(g1.getSelectedToggle().getUserData().toString());
                         }
                     }
-                });*/
+                });
 
                 //get values from toggle buttons
-               /* String userOddEven = g1.getSelectedToggle().getUserData().toString();
+                String userOddEven = g1.getSelectedToggle().getUserData().toString();
                 String userColor = g2.getSelectedToggle().getUserData().toString();*/
                 //convert strings to chars
                /* char cuserOE = userOddEven.charAt(0);
                 char cuserColor = userColor.charAt(0);
-                //get values from choiceboxes
-               String userBetNum = cb1.getValue().toString();
-                String userBetOE = cb2.getValue().toString();
-                String userBetCol = cb3.getValue().toString();
-                //convert to integers
-                int ubn = Integer.parseInt(userBetNum);
-                int uboe = Integer.parseInt(userBetOE);
-                int ubc = Integer.parseInt(userBetCol);
-                int userBet = ubn+ubc+uboe;*/
+                */
                 int luckyNumber = rulet.fortuneNum();
-                char luckyColor = rulet.fortuneCol(luckyNumber);/*
+                char luckyColor = rulet.fortuneCol(luckyNumber);
+
+                int userWin = teller.checkForWin(userNumber,luckyNumber,luckyColor, ubn,  ubc, uboe);
+
+                int userMoney = user.countMoney(userBet, userWin);
+                myMoneyT.setText("Your money: " + userMoney);
+
+                /*
                 int userWin = teller.checkForWin(userNumber, cuserColor,cuserOE,luckyNumber,luckyColor, ubn,  ubc, uboe);
 
                 int userMoney = user.countMoney(userBet, userWin);
