@@ -40,7 +40,6 @@ public class Main extends Application {
         field.maxWidth(50);
         field.setTranslateY(-150);
 
-        Label YB = new Label("Your bet: ");
         Label lb = new Label("Number  0 - 36: ");
         stack.getChildren().add(lb);
         lb.setTranslateY(-170);
@@ -68,6 +67,7 @@ public class Main extends Application {
         r2.setUserData('E');
         r1.setToggleGroup(g1);
         r2.setToggleGroup(g1);
+        r1.setSelected(true);
 
 
         //Toggle for color
@@ -111,6 +111,8 @@ public class Main extends Application {
         stack.getChildren().add(myMoneyT);
         stack.setAlignment(myMoneyT, Pos.TOP_RIGHT);
 
+        int userMoney = 100;
+
         //GAME STARTS HERE!
         spin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -121,9 +123,16 @@ public class Main extends Application {
                 stack.getChildren().remove(circleG);
                 stack.getChildren().remove(circleR);
                 stack.getChildren().remove(actiontarget);
-                User user = new User();
+
                 Teller teller = new Teller();
                 Roulette rulet = new Roulette();
+
+                //get values from toggles and convert to chars
+                String userOddEven = g1.getSelectedToggle().getUserData().toString();
+                String userColor = g2.getSelectedToggle().getUserData().toString();
+                char userCharOE = userOddEven.charAt(0);
+                char userCharColor= userColor.charAt(0);
+System.out.println("UserColor = " + userCharColor);
 
 
                 int userNumber = Integer.parseInt(field.getText());     //String to integer
@@ -167,9 +176,10 @@ public class Main extends Application {
                 int luckyNumber = rulet.fortuneNum();
                 char luckyColor = rulet.fortuneCol(luckyNumber);
 
-                int userWin = teller.checkForWin(userNumber,luckyNumber,luckyColor, ubn,  ubc, uboe);
+                int userWin = teller.checkForWin(userNumber,luckyNumber,luckyColor, ubn,  ubc, uboe, userCharColor, userCharOE);
+System.out.println("UserWin = " + userWin);
 
-                int userMoney = user.countMoney(userBet, userWin);
+                System.out.println("userMoney = " +userMoney);
                 myMoneyT.setText("Your money: " + userMoney);
 
                 /*

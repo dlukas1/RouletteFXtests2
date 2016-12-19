@@ -6,25 +6,27 @@ package sample;
 public class Teller {
     public int userWinN, userWinC, userWinOE;
 
-    boolean isEven(int userNumber) {
-        return ((userNumber % 2) == 0);
-    }
-//ubral iz metoda:  char userColor, char cuserOE,
-    public int checkForWin(int userNumber, int luckyNumber, char luckyColor, int ubn, int ubc, int uboe) {
+    public int checkForWin(int userNumber, int luckyNumber, char luckyColor, int ubn, int ubc, int uboe, char userCharColor, char userCharOE) {
 
         if (userNumber == luckyNumber) {
             userWinN = ubn * 35;
-
-        } /*else if (userColor == luckyColor) {
-            userWinC = ubc * 2;
-
-        } else if (isEven(userNumber) == true || cuserOE == 'E') {
-            userWinOE = uboe * 2;
-        } else if (isEven(userNumber) == false || cuserOE == 'O') {
-            userWinOE = uboe * 2;
-        } */else {
-            System.out.println("You lost!");
         }
+
+        if (userCharColor == luckyColor) {
+            userWinC = ubc * 2;
+            System.out.println("UserColor win!");
+        }
+
+        if ((luckyNumber % 2) == 0 && userCharOE == 'E') {
+            System.out.println("Число " + luckyNumber + " четное ");
+            userWinOE = uboe * 2;
+            System.out.println(userWinOE);
+        } else if ((luckyNumber % 1) == 0 && userCharOE == 'O') {
+            System.out.println("Число " + luckyNumber + " нечетное ");
+            userWinOE = uboe * 2;
+            System.out.println(userWinOE);
+        }
+
 
         int userWin = userWinN + userWinC + userWinOE;
 

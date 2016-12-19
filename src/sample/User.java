@@ -8,11 +8,23 @@ package sample;
     //Return value to main window, if money == 0 end game.
 
 public class User {
-
+    int myMoney = 100;
     public int countMoney (int userBet, int userWin) {
-        int startMoney = 100;
-        int myMoney = startMoney - userBet + userWin;
+
+System.out.println(myMoney);
+    myMoney = myMoney - userBet + userWin;
+
+
+
         return myMoney;
     }
 
 }
+
+/*
+int count = 1;
+        do {
+            System.out.println("Count is: " + count);
+            count++;
+        } while (count < 11);
+ */
