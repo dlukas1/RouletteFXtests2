@@ -1,8 +1,3 @@
-Nimi
-Projekti kirjeldus
-Kasutusjuhend
-Litsents
-
 Simple roulet game made for learning programming on Java.
 
 Project have 4 classes: 
@@ -17,5 +12,5 @@ How to play:
 - choose how much you like to bet.
 - press "SPIN" button (ENTER also works)
 
-Copyright  Dmitry Lukash © 2017
+Copyright:				  Dmitry Lukash © 2017
 

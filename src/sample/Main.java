@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -122,6 +123,12 @@ public class Main extends Application {
         userMessage.setFill(Color.FIREBRICK);
         userMessage.setFont(new Font("Arial", 20));
 
+        scene.setOnKeyPressed(event -> {
+            KeyCode code = event.getCode();
+            if (code == KeyCode.ENTER) {
+                spin.fire();
+            }
+        });
 
 
         //GAME STARTS HERE!
@@ -146,61 +153,66 @@ public class Main extends Application {
                 char userCharColor= userColor.charAt(0);
                 System.out.println("UserColor = " + userCharColor);
 
+                boolean isNumber = teller.kasNumber(field.getText());
+                if (isNumber == false) {
+                    userMessage.setText("See ei ole number, sisesta number!"); //if not a number
+                }
+                else {
+                    int userNumber = Integer.parseInt(field.getText());    //String to integer
+                    if(userNumber < 0 | userNumber>36){
+                        userMessage.setText("Number 0 - 36 please!");
+                    }
+                    else {
+                        //get values from choiceboxes
+                        String userBetNum = cb1.getValue().toString();
+                        String userBetOE = cb2.getValue().toString();
+                        String userBetCol = cb3.getValue().toString();
+                        //convert to integers
+                        int ubn = Integer.parseInt(userBetNum);
+                        int uboe = Integer.parseInt(userBetOE);
+                        int ubc = Integer.parseInt(userBetCol);
+                        int userBet = ubn + ubc + uboe;
+                        System.out.println(userBet);
 
-                int userNumber = Integer.parseInt(field.getText());     //String to integer
+                        int luckyNumber = rulet.fortuneNum();
+                        char luckyColor = rulet.fortuneCol(luckyNumber);
 
-                //get values from choiceboxes
-                String userBetNum = cb1.getValue().toString();
-                String userBetOE = cb2.getValue().toString();
-                String userBetCol = cb3.getValue().toString();
-                //convert to integers
-                int ubn = Integer.parseInt(userBetNum);
-                int uboe = Integer.parseInt(userBetOE);
-                int ubc = Integer.parseInt(userBetCol);
-                int userBet = ubn+ubc+uboe;
-                System.out.println(userBet);
-
-                int luckyNumber = rulet.fortuneNum();
-                char luckyColor = rulet.fortuneCol(luckyNumber);
-
-                int userWin = teller.checkForWin(userNumber,luckyNumber,luckyColor, ubn,  ubc, uboe, userCharColor, userCharOE);
-System.out.println("UserWin = " + userWin);
+                        int userWin = teller.checkForWin(userNumber, luckyNumber, luckyColor, ubn, ubc, uboe, userCharColor, userCharOE);
+                        System.out.println("UserWin = " + userWin);
 
 
-
-if(userWin!=0){
-    userMessage.setText("Your win: " +userWin );
-    int userMoney = user.countMoney(userBet, userWin);
-    myMoneyT.setText("Your money: " + userMoney + userWin);
-}
-else if (userBet != 0){
-    userMessage.setText("Sorry, you lost!");
-    int userMoney = user.countMoney(userBet, userWin);
-    myMoneyT.setText("Your money: " + userMoney);
-}
+                        if (userWin != 0) {
+                            userMessage.setText("Your win: " + userWin);
+                            int userMoney = user.countMoney(userBet, userWin);
+                            myMoneyT.setText("Your money: " + userMoney + userWin);
+                        } else if (userBet != 0) {
+                            userMessage.setText("Sorry, you lost!");
+                            int userMoney = user.countMoney(userBet, userWin);
+                            myMoneyT.setText("Your money: " + userMoney);
+                        }
 
                 /*
                 int userWin = teller.checkForWin(userNumber, cuserColor,cuserOE,luckyNumber,luckyColor, ubn,  ubc, uboe);
 
 
                 myMoneyT.setText("Your money: " + userMoney);*/
-                stack.getChildren().remove(circleB);
-                stack.getChildren().remove(circleG);
-                stack.getChildren().remove(circleR);
-                stack.getChildren().remove(actiontarget);
+                        stack.getChildren().remove(circleB);
+                        stack.getChildren().remove(circleG);
+                        stack.getChildren().remove(circleR);
+                        stack.getChildren().remove(actiontarget);
 
-                if (luckyColor == 'R') {
-                    stack.getChildren().add(circleR);
-                } else if (luckyColor == 'G') {
-                    stack.getChildren().add(circleG);
-                } else {
-                    stack.getChildren().add(circleB);
+                        if (luckyColor == 'R') {
+                            stack.getChildren().add(circleR);
+                        } else if (luckyColor == 'G') {
+                            stack.getChildren().add(circleG);
+                        } else {
+                            stack.getChildren().add(circleB);
+                        }
+                        stack.getChildren().add(actiontarget);
+                        actiontarget.setText("" + luckyNumber);
+                    }
+
                 }
-                stack.getChildren().add(actiontarget);
-                actiontarget.setText("" + luckyNumber);
-
-
-
             }
 
         });

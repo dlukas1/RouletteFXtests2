@@ -5,6 +5,14 @@ package sample;
  */
 public class Teller {
     public int userWinN, userWinC, userWinOE;
+    public boolean kasNumber (String a) {
+        try {
+            Integer.parseInt(a);
+        } catch(Exception e){
+            return false;
+        }
+        return true;
+    }
 
     public int checkForWin(int userNumber, int luckyNumber, char luckyColor, int ubn, int ubc, int uboe, char userCharColor, char userCharOE) {
         char luckyOE = 'x'; //default value to initialize luckyOE
