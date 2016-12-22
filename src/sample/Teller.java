@@ -7,7 +7,8 @@ public class Teller {
     public int userWinN, userWinC, userWinOE;
 
     public int checkForWin(int userNumber, int luckyNumber, char luckyColor, int ubn, int ubc, int uboe, char userCharColor, char userCharOE) {
-char luckyOE = 'x';
+        char luckyOE = 'x'; //default value to initialize luckyOE
+
         if (userNumber == luckyNumber) {
             userWinN = ubn * 35;
         }
@@ -17,17 +18,16 @@ char luckyOE = 'x';
             System.out.println("UserColor win!");
         }
 
-        if ((luckyNumber % 2) == 0 ) {
-             luckyOE = 'E';
-        }
-        else if ((luckyNumber % 1) == 0 ) {
-             luckyOE = 'O';
+        if ((luckyNumber % 2) == 0) {
+            luckyOE = 'E';
+        } else if ((luckyNumber % 1) == 0) {
+            luckyOE = 'O';
         }
 
-if(userCharOE == luckyOE){
-    userWinOE = uboe * 2;
-    System.out.println("Won OE = " + luckyOE);
-}
+        if (userCharOE == luckyOE) {
+            userWinOE = uboe * 2;
+            System.out.println("Won OE = " + luckyOE);
+        }
 
         int userWin = userWinN + userWinC + userWinOE;
 

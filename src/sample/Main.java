@@ -63,11 +63,16 @@ public class Main extends Application {
         ToggleGroup g1 = new ToggleGroup();
         RadioButton r1 = new RadioButton("Odd ");
         RadioButton r2 = new RadioButton("Even");
+        RadioButton r3 = new RadioButton("Def");
         r1.setUserData('O');
         r2.setUserData('E');
+
         r1.setToggleGroup(g1);
         r2.setToggleGroup(g1);
         r1.setSelected(true);
+        /* r3.setUserData('D');     Сделать чтоб по умолчанию не было выбора и ошибка не выбивалась
+        stack.getChildren().add(r3);
+        r3.setVisible(false);*/
 
 
         //Toggle for color
@@ -111,7 +116,13 @@ public class Main extends Application {
         stack.getChildren().add(myMoneyT);
         stack.setAlignment(myMoneyT, Pos.TOP_RIGHT);
 
-        int userMoney = 100;
+        final Text userMessage  = new Text("Tralala");
+        userMessage.setTranslateY(200);
+        stack.getChildren().add(userMessage);
+        userMessage.setFill(Color.FIREBRICK);
+        userMessage.setFont(new Font("Arial", 20));
+
+
 
         //GAME STARTS HERE!
         spin.setOnAction(new EventHandler<ActionEvent>() {
@@ -123,16 +134,17 @@ public class Main extends Application {
                 stack.getChildren().remove(circleG);
                 stack.getChildren().remove(circleR);
                 stack.getChildren().remove(actiontarget);
-
+                userMessage.setText(" ");
                 Teller teller = new Teller();
                 Roulette rulet = new Roulette();
+                User user = new User();
 
                 //get values from toggles and convert to chars
                 String userOddEven = g1.getSelectedToggle().getUserData().toString();
                 String userColor = g2.getSelectedToggle().getUserData().toString();
                 char userCharOE = userOddEven.charAt(0);
                 char userCharColor= userColor.charAt(0);
-System.out.println("UserColor = " + userCharColor);
+                System.out.println("UserColor = " + userCharColor);
 
 
                 int userNumber = Integer.parseInt(field.getText());     //String to integer
@@ -148,44 +160,29 @@ System.out.println("UserColor = " + userCharColor);
                 int userBet = ubn+ubc+uboe;
                 System.out.println(userBet);
 
-
-              /*  g2.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-                    public void changed(ObservableValue<? extends Toggle> ov,
-                                        Toggle old_toggle, Toggle new_toggle) {
-                        if (g2.getSelectedToggle() != null) {
-                            System.out.println(g2.getSelectedToggle().getUserData().toString());
-                        }
-                    }
-                });
-                g1.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-                    public void changed(ObservableValue<? extends Toggle> ov,
-                                        Toggle old_toggle, Toggle new_toggle) {
-                        if (g1.getSelectedToggle() != null) {
-                            System.out.println(g1.getSelectedToggle().getUserData().toString());
-                        }
-                    }
-                });
-
-                //get values from toggle buttons
-                String userOddEven = g1.getSelectedToggle().getUserData().toString();
-                String userColor = g2.getSelectedToggle().getUserData().toString();*/
-                //convert strings to chars
-               /* char cuserOE = userOddEven.charAt(0);
-                char cuserColor = userColor.charAt(0);
-                */
                 int luckyNumber = rulet.fortuneNum();
                 char luckyColor = rulet.fortuneCol(luckyNumber);
 
                 int userWin = teller.checkForWin(userNumber,luckyNumber,luckyColor, ubn,  ubc, uboe, userCharColor, userCharOE);
 System.out.println("UserWin = " + userWin);
 
-                System.out.println("userMoney = " +userMoney);
-                myMoneyT.setText("Your money: " + userMoney);
+
+
+if(userWin!=0){
+    userMessage.setText("Your win: " +userWin );
+    int userMoney = user.countMoney(userBet, userWin);
+    myMoneyT.setText("Your money: " + userMoney + userWin);
+}
+else if (userBet != 0){
+    userMessage.setText("Sorry, you lost!");
+    int userMoney = user.countMoney(userBet, userWin);
+    myMoneyT.setText("Your money: " + userMoney);
+}
 
                 /*
                 int userWin = teller.checkForWin(userNumber, cuserColor,cuserOE,luckyNumber,luckyColor, ubn,  ubc, uboe);
 
-                int userMoney = user.countMoney(userBet, userWin);
+
                 myMoneyT.setText("Your money: " + userMoney);*/
                 stack.getChildren().remove(circleB);
                 stack.getChildren().remove(circleG);

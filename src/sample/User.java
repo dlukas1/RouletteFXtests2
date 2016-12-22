@@ -8,10 +8,10 @@ package sample;
     //Return value to main window, if money == 0 end game.
 
 public class User {
-    int myMoney = 100;
+    int myMoney = 50;
     public int countMoney (int userBet, int userWin) {
 
-System.out.println(myMoney);
+System.out.println("UserMoney = "+ myMoney);
     myMoney = myMoney - userBet + userWin;
 
 
