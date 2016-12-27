@@ -44,11 +44,11 @@ public class Main extends Application {
         TextField field = new TextField("0");
         stack.getChildren().add(field);
         field.maxWidth(50);
-        field.setTranslateY(-150);
+        field.setTranslateY(-155);
 
         Label lb = new Label("Number  0 - 36: ");
         stack.getChildren().add(lb);
-        lb.setTranslateY(-170);
+        lb.setTranslateY(-180);
 
         ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList
                 (0, 1, 2, 5, 10, 20));
@@ -109,10 +109,11 @@ public class Main extends Application {
         actiontarget.setFont(new Font("Arial", 50));
         actiontarget.setFill(Color.WHITE);
 
-        final Text myMoneyT = new Text("Your money: 100     ");
-        myMoneyT.setFont(new Font("Arial", 16));
+        final Label myMoneyT = new Label ("Your money: 100     ");
+
         stack.getChildren().add(myMoneyT);
-        stack.setAlignment(myMoneyT, Pos.TOP_RIGHT);
+        myMoneyT.setTranslateY(-240);
+        myMoneyT.setTranslateX(140);
 
         final Text userMessage = new Text("Welcome to Lucky Casino!");
         userMessage.setTranslateY(150);
@@ -159,7 +160,7 @@ public class Main extends Application {
                 String userColor = g2.getSelectedToggle().getUserData().toString();
                 char userCharOE = userOddEven.charAt(0);
                 char userCharColor = userColor.charAt(0);
-               // System.out.println("UserColor = " + userCharColor);
+
 
                 boolean isNumber = teller.kasNumber(field.getText());
                 if (isNumber == false) {
