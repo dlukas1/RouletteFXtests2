@@ -1,4 +1,5 @@
 package sample;
+
 import javafx.application.Application;
 
 import javafx.collections.FXCollections;
@@ -7,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -22,8 +24,9 @@ public class Main extends Application {
         Scene scene = new Scene(stack, 400, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Lucky Roulette");
+        primaryStage.getIcons().add(new Image("icon.png"));
         primaryStage.show();
-        // scene.getStylesheets().add((getClass().getResource("style.css")).toExternalForm());
+        scene.getStylesheets().add((getClass().getResource("style.css")).toExternalForm());
         Button spin = new Button("SPIN!");
         stack.getChildren().add(spin);
         spin.setTranslateY(100);
@@ -46,12 +49,12 @@ public class Main extends Application {
         lb.setTranslateY(-170);
 
         ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList
-                (0,1,2,5,10,20));
+                (0, 1, 2, 5, 10, 20));
         ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList
-                (0,1,2,5,10,20));
+                (0, 1, 2, 5, 10, 20));
 
         ChoiceBox cb3 = new ChoiceBox(FXCollections.observableArrayList
-                (0,1,2,5,10,20));
+                (0, 1, 2, 5, 10, 20));
         cb1.getSelectionModel().select(0);
         cb2.getSelectionModel().select(0);
         cb3.getSelectionModel().select(0);
@@ -89,9 +92,6 @@ public class Main extends Application {
         btnBlack.setSelected(true);
 
 
-
-
-
         stack.getChildren().addAll(btnRed, btnBlack, cb3);
         btnRed.setTranslateX(160);
         btnRed.setTranslateY(10);
@@ -117,10 +117,10 @@ public class Main extends Application {
         stack.getChildren().add(myMoneyT);
         stack.setAlignment(myMoneyT, Pos.TOP_RIGHT);
 
-        final Text userMessage  = new Text("Tralala");
+        final Text userMessage = new Text("Welcome to Lucky Casino!");
         userMessage.setTranslateY(200);
         stack.getChildren().add(userMessage);
-        userMessage.setFill(Color.FIREBRICK);
+        userMessage.setFill(Color.RED);
         userMessage.setFont(new Font("Arial", 20));
 
         scene.setOnKeyPressed(event -> {
@@ -133,6 +133,8 @@ public class Main extends Application {
 
         //GAME STARTS HERE!
         spin.setOnAction(new EventHandler<ActionEvent>() {
+            int money = 100;
+
             @Override
 
             public void handle(ActionEvent event) {
@@ -144,25 +146,27 @@ public class Main extends Application {
                 userMessage.setText(" ");
                 Teller teller = new Teller();
                 Roulette rulet = new Roulette();
-                User user = new User();
+
+                //quit game if loose all money
+                if (money <= 0) {
+                    System.exit(0);
+                }
 
                 //get values from toggles and convert to chars
                 String userOddEven = g1.getSelectedToggle().getUserData().toString();
                 String userColor = g2.getSelectedToggle().getUserData().toString();
                 char userCharOE = userOddEven.charAt(0);
-                char userCharColor= userColor.charAt(0);
+                char userCharColor = userColor.charAt(0);
                 System.out.println("UserColor = " + userCharColor);
 
                 boolean isNumber = teller.kasNumber(field.getText());
                 if (isNumber == false) {
                     userMessage.setText("See ei ole number, sisesta number!"); //if not a number
-                }
-                else {
+                } else {
                     int userNumber = Integer.parseInt(field.getText());    //String to integer
-                    if(userNumber < 0 | userNumber>36){
+                    if (userNumber < 0 | userNumber > 36) {
                         userMessage.setText("Number 0 - 36 please!");
-                    }
-                    else {
+                    } else {
                         //get values from choiceboxes
                         String userBetNum = cb1.getValue().toString();
                         String userBetOE = cb2.getValue().toString();
@@ -183,19 +187,17 @@ public class Main extends Application {
 
                         if (userWin != 0) {
                             userMessage.setText("Your win: " + userWin);
-                            int userMoney = user.countMoney(userBet, userWin);
-                            myMoneyT.setText("Your money: " + userMoney + userWin);
+                            money = money + userWin - userBet;
+                            myMoneyT.setText("Your money: " + money);
+
                         } else if (userBet != 0) {
                             userMessage.setText("Sorry, you lost!");
-                            int userMoney = user.countMoney(userBet, userWin);
-                            myMoneyT.setText("Your money: " + userMoney);
+                            money = money - userBet;
+                            myMoneyT.setText("Your money: " + money);
+
                         }
 
-                /*
-                int userWin = teller.checkForWin(userNumber, cuserColor,cuserOE,luckyNumber,luckyColor, ubn,  ubc, uboe);
 
-
-                myMoneyT.setText("Your money: " + userMoney);*/
                         stack.getChildren().remove(circleB);
                         stack.getChildren().remove(circleG);
                         stack.getChildren().remove(circleR);
