@@ -12,11 +12,22 @@
 }
 
 
+.button:hover {
+ -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+ }
+
+ .choicebox: hover {
+ -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+ }
 
 .text {
     -fx-font-size: 12 px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.text-field{
+    -fx-max-width: 100;
 }
 

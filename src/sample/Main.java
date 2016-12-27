@@ -31,6 +31,8 @@ public class Main extends Application {
         stack.getChildren().add(spin);
         spin.setTranslateY(100);
 
+
+
         Circle circleR = new Circle(60);
         circleR.setFill(Color.RED);
         Circle circleG = new Circle(60);
@@ -67,17 +69,11 @@ public class Main extends Application {
         ToggleGroup g1 = new ToggleGroup();
         RadioButton r1 = new RadioButton("Odd ");
         RadioButton r2 = new RadioButton("Even");
-        RadioButton r3 = new RadioButton("Def");
         r1.setUserData('O');
         r2.setUserData('E');
-
         r1.setToggleGroup(g1);
         r2.setToggleGroup(g1);
         r1.setSelected(true);
-        /* r3.setUserData('D');     Сделать чтоб по умолчанию не было выбора и ошибка не выбивалась
-        stack.getChildren().add(r3);
-        r3.setVisible(false);*/
-
 
         //Toggle for color
         ToggleGroup g2 = new ToggleGroup();
@@ -89,7 +85,7 @@ public class Main extends Application {
         btnRed.setUserData('R');
         btnRed.setToggleGroup(g2);
         btnBlack.setToggleGroup(g2);
-        btnBlack.setSelected(true);
+        btnRed.setSelected(true);
 
 
         stack.getChildren().addAll(btnRed, btnBlack, cb3);
@@ -113,15 +109,21 @@ public class Main extends Application {
         actiontarget.setFont(new Font("Arial", 50));
         actiontarget.setFill(Color.WHITE);
 
-        final Text myMoneyT = new Text();
+        final Text myMoneyT = new Text("Your money: 100     ");
+        myMoneyT.setFont(new Font("Arial", 16));
         stack.getChildren().add(myMoneyT);
         stack.setAlignment(myMoneyT, Pos.TOP_RIGHT);
 
         final Text userMessage = new Text("Welcome to Lucky Casino!");
-        userMessage.setTranslateY(200);
+        userMessage.setTranslateY(150);
         stack.getChildren().add(userMessage);
         userMessage.setFill(Color.RED);
         userMessage.setFont(new Font("Arial", 20));
+
+        Label copyrights = new Label("Dmitri Lukas © 2017");
+        stack.getChildren().add(copyrights);
+        copyrights.setTranslateY(240);
+        copyrights.setTranslateX(130);
 
         scene.setOnKeyPressed(event -> {
             KeyCode code = event.getCode();
@@ -157,7 +159,7 @@ public class Main extends Application {
                 String userColor = g2.getSelectedToggle().getUserData().toString();
                 char userCharOE = userOddEven.charAt(0);
                 char userCharColor = userColor.charAt(0);
-                System.out.println("UserColor = " + userCharColor);
+               // System.out.println("UserColor = " + userCharColor);
 
                 boolean isNumber = teller.kasNumber(field.getText());
                 if (isNumber == false) {
@@ -193,7 +195,7 @@ public class Main extends Application {
                         } else if (userBet != 0) {
                             userMessage.setText("Sorry, you lost!");
                             money = money - userBet;
-                            myMoneyT.setText("Your money: " + money);
+                            myMoneyT.setText("Your money: " + money     );
 
                         }
 
