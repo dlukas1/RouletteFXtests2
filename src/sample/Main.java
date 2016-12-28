@@ -16,6 +16,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Main extends Application {
     @Override
@@ -150,10 +155,9 @@ public class Main extends Application {
                 Teller teller = new Teller();
                 Roulette rulet = new Roulette();
 
-                //quit game if loose all money
-                if (money <= 0) {
-                    System.exit(0);
-                }
+
+
+
 
                 //get values from toggles and convert to chars
                 String userOddEven = g1.getSelectedToggle().getUserData().toString();
@@ -180,6 +184,22 @@ public class Main extends Application {
                         int ubc = Integer.parseInt(userBetCol);
                         int userBet = ubn + ubc + uboe;
                         System.out.println(userBet);
+
+
+                        //quit game if loose all money
+                        if (money <= 0) {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("GAME OVER");
+                            alert.setHeaderText("Sorry, you lost all your money!");
+                            alert.setContentText("Would you like to play again?");
+
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK){
+                                money = userBet + 100;
+                            } else {
+                                System.exit(0);
+                            }
+                        }
 
                         int luckyNumber = rulet.fortuneNum();
                         char luckyColor = rulet.fortuneCol(luckyNumber);
@@ -208,10 +228,10 @@ public class Main extends Application {
 
                         if (luckyColor == 'R') {
                             stack.getChildren().add(circleR);
-                        } else if (luckyColor == 'G') {
-                            stack.getChildren().add(circleG);
-                        } else {
+                        } else if (luckyColor == 'B') {
                             stack.getChildren().add(circleB);
+                        } else {
+                            stack.getChildren().add(circleG);
                         }
                         stack.getChildren().add(actiontarget);
                         actiontarget.setText("" + luckyNumber);
