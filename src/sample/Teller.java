@@ -1,10 +1,12 @@
 package sample;
 
 /**
- * Класс Теллер - принимает ставки (сколько и на что поставили), сравнивает ставку и результт рулетки и считает выигрыш
+ * Klass Teller võtab vastu panused (kui palju ja mille peale on pantnud), võrdleb ruletti tulemusega ja arvestab võidu
  */
 public class Teller {
     public int userWinN, userWinC, userWinOE;
+
+    //Siin kontrollime kas sisestati numbri
     public boolean kasNumber (String a) {
         try {
             Integer.parseInt(a);
@@ -14,6 +16,7 @@ public class Teller {
         return true;
     }
 
+    //Siin kontrollime kas on võidu
     public int checkForWin(int userNumber, int luckyNumber, char luckyColor, int ubn, int ubc, int uboe, char userCharColor, char userCharOE) {
         char luckyOE = 'x'; //default value to initialize luckyOE
 
