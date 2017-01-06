@@ -26,7 +26,6 @@ public class Teller {
 
         if (userCharColor == luckyColor) {
             userWinC = ubc * 2;
-            System.out.println("UserColor win!");
         }
 
         if ((luckyNumber % 2) == 0) {
@@ -37,7 +36,6 @@ public class Teller {
 
         if (userCharOE == luckyOE) {
             userWinOE = uboe * 2;
-            System.out.println("Won OE = " + luckyOE);
         }
 
         int userWin = userWinN + userWinC + userWinOE;

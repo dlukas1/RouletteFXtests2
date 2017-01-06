@@ -22,9 +22,10 @@ import java.util.Optional;
 
 public class Main extends Application {
     @Override
+
+    //LOOME MANGUVALJA ELEMENDID
     public void start(Stage primaryStage) throws Exception {
 
-        //LOOME MANGUVALJA ELEMENDID
         StackPane stack = new StackPane();
         Scene scene = new Scene(stack, 400, 500);
         primaryStage.setScene(scene);
@@ -33,6 +34,8 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
         scene.getStylesheets().add((getClass().getResource("style.css")).toExternalForm());
+
+
         Button spin = new Button("SPIN!");
         stack.getChildren().add(spin);
         spin.setTranslateY(100);
@@ -160,15 +163,16 @@ public class Main extends Application {
 
                 //Kontrollime kas sisetstatud number
                 boolean isNumber = teller.kasNumber(field.getText());
-                if (isNumber == false) {
+                if (isNumber == false ) {
                     //kui ei ole number
                     userMessage.setText("See ei ole number, sisesta number!");
                 } else {
                     //kui on number - kas on vahemikus 0- 36?
                     int userNumber = Integer.parseInt(field.getText());
                     if (userNumber < 0 | userNumber > 36) {
-                        userMessage.setText("Number 0 - 36 please!");
-                    } else {
+                        userMessage.setText("Number 0 - 36 palun!");
+                    }
+                    else {
                         //get values from choiceboxes
                         String userBetNum = cb1.getValue().toString();
                         String userBetOE = cb2.getValue().toString();
