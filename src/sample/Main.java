@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 
 import javafx.collections.FXCollections;
@@ -16,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
+import javafx.util.Duration;
 
 import java.util.Optional;
 
@@ -147,6 +150,44 @@ public class Main extends Application {
 
             public void handle(ActionEvent event) {
 
+
+                Timeline flash = new Timeline(
+
+                        new KeyFrame(Duration.seconds(0.0), e -> {
+                            flashColor();
+                        }),
+
+
+                new KeyFrame(Duration.seconds(5.5),e-> {
+                    alustaMangu();
+                })
+                );
+
+                flash.setCycleCount(1);
+                flash.play();
+
+
+            }
+
+            public void flashColor (){
+                Timeline vahetame = new Timeline(
+
+                            new KeyFrame(Duration.seconds(0.5), e -> {
+                                stack.getChildren().removeAll(circleB,circleG,circleR,actiontarget);
+                                stack.getChildren().add(circleR);
+                            }),
+                        new KeyFrame(Duration.seconds(1), e -> {
+                            stack.getChildren().removeAll(circleR);
+                            stack.getChildren().add(circleB);
+                        }));
+            vahetame.setCycleCount(5);
+            vahetame.play();}
+
+
+
+
+
+            public void alustaMangu() {
                 //Eemaldame vanad ringid ja kirjad
                 stack.getChildren().removeAll(circleB,circleG,circleR,actiontarget);
 
@@ -230,5 +271,20 @@ public class Main extends Application {
                 }
             }
         });
+
+
     }
-}
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
